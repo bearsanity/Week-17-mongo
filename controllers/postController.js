@@ -4,7 +4,7 @@ module.exports = {
     // GET /api/posts
     async getPosts(req, res) {
         try {
-            const posts = await post.find();
+            const posts = await Post.find();
             return res.json(posts);
         } catch (err) {
             return res
@@ -18,8 +18,6 @@ module.exports = {
         try {
             const post = await post
                 .findById(req.params.postId)
-                .populate('posts')
-                .populate('connections');
 
             if (!post) {
                 return res
@@ -27,8 +25,8 @@ module.exports = {
                     .json({message: "No post found with that id"})
             }
 
-            return res.json(course);
-        } catch {
+            return res.json(developer);
+        } catch (err) {
             return res
                 .status(500)
                 .json({message: "Failed to fetch post", error: err.message})
@@ -38,7 +36,7 @@ module.exports = {
     // POST /api/posts
     async createOnePost(req, res) {
         try {
-            const post = await post.create(req.body);
+            const post = await Post.create(req.body);
             return res.status(201).json(post);
         } catch (err) {
             return res  
@@ -50,8 +48,8 @@ module.exports = {
     // PUT /api/posts/:postId
     async updateOnePost(req, res) {
         try {
-            const post = await post.findByIdAndUpdate(
-                req.params.courseId,
+            const post = await Post.findByIdAndUpdate(
+                req.params.postId,
                 { $set: req.body },
                 { runValidators: true, new: true }
             );
@@ -73,7 +71,7 @@ module.exports = {
     // DELETE /api/posts/:postId	
     async deleteOnePost(req, res) {
         try {
-            const post = await post.findByIdAndDelete(req.params.courseId,);
+            const post = await Post.findByIdAndDelete(req.params.postId,);
 
             if (!post) {
                 return res

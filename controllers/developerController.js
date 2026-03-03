@@ -27,7 +27,7 @@ module.exports = {
                     .json({message: "No developer found with that id"})
             }
 
-            return res.json(course);
+            return res.json(developer);
         } catch {
             return res
                 .status(500)
@@ -51,7 +51,7 @@ module.exports = {
     async updateOneDeveloper(req, res) {
         try {
             const developer = await Developer.findByIdAndUpdate(
-                req.params.courseId,
+                req.params.developer,
                 { $set: req.body },
                 { runValidators: true, new: true }
             );
@@ -73,7 +73,7 @@ module.exports = {
     // DELETE /api/developers/:developerId	
     async deleteOneDeveloper(req, res) {
         try {
-            const developer = await Developer.findByIdAndDelete(req.params.courseId,);
+            const developer = await Developer.findByIdAndDelete(req.params.developerId,);
 
             if (!developer) {
                 return res
