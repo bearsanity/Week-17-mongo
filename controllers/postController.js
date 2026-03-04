@@ -1,10 +1,11 @@
-const { Post } = require("../models");
+const { Post } = require("../models/Post");
+const { Developer } = require("../models/Developer");
 
 module.exports = {
     // GET /api/posts
     async getPosts(req, res) {
         try {
-            const posts = await Post.find();
+            const posts = await Post.find().sort({ createdAt: -1 });
             return res.json(posts);
         } catch (err) {
             return res
@@ -16,7 +17,7 @@ module.exports = {
     // GET /api/posts/:postId
     async getOnePost(req, res) {
         try {
-            const post = await post
+            const post = await Post
                 .findById(req.params.postId)
 
             if (!post) {
@@ -25,7 +26,7 @@ module.exports = {
                     .json({message: "No post found with that id"})
             }
 
-            return res.json(developer);
+            return res.json(post);
         } catch (err) {
             return res
                 .status(500)

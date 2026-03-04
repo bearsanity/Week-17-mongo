@@ -1,5 +1,14 @@
-const router = require('express').Router();
+const { 
+    getPosts, 
+    getOnePost, 
+    createOnePost, 
+    updateOnePost, 
+    deleteOnePost, 
+    addReaction, 
+    deleteReaction,
+ } = require("../../controllers/postController");
 
+const router = require('express').Router();
 
 // ============================= Post Routes =============================
 
@@ -20,3 +29,5 @@ router.delete('/:postId', deleteOnePost);
 router.post('/:postId/reactions', addReaction);
 
 router.delete('/:postId/reactions/:reactionId', deleteReaction);
+
+module.exports = router;

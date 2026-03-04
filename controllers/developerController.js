@@ -1,4 +1,4 @@
-const { Developer } = require("../models");
+const { Developer } = require("../models/Developer");
 
 module.exports = {
     // GET /api/developers
@@ -28,7 +28,7 @@ module.exports = {
             }
 
             return res.json(developer);
-        } catch {
+        } catch (err) {
             return res
                 .status(500)
                 .json({message: "Failed to fetch developer", error: err.message})
@@ -51,7 +51,7 @@ module.exports = {
     async updateOneDeveloper(req, res) {
         try {
             const developer = await Developer.findByIdAndUpdate(
-                req.params.developer,
+                req.params.developerId,
                 { $set: req.body },
                 { runValidators: true, new: true }
             );
@@ -85,7 +85,7 @@ module.exports = {
         } catch (err) {
             return res
                 .status(400)
-                .json({ message: "Failed to update developer", error: err.message });
+                .json({ message: "Failed to delete developer", error: err.message });
         }
     },
 

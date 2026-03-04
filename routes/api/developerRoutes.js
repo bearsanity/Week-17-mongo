@@ -1,3 +1,13 @@
+const { 
+    getDevelopers, 
+    getOneDeveloper, 
+    createOneDeveloper, 
+    updateOneDeveloper, 
+    deleteOneDeveloper, 
+    addConnection, 
+    deleteConnection,
+ } = require("../../controllers/developerController");
+
 const router = require('express').Router();
 
 
@@ -20,3 +30,5 @@ router.delete('/:developerId', deleteOneDeveloper);
 router.post('/:developerId/connections/:connectionId', addConnection);
 
 router.delete('/:developerId/connections/:connectionId', deleteConnection);
+
+module.exports = router;
