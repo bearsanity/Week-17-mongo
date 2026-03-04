@@ -1,5 +1,5 @@
-const { Post } = require("../models/Post");
-const { Developer } = require("../models/Developer");
+const Post = require("../models/Post");
+const Developer = require("../models/Developer");
 
 module.exports = {
     // GET /api/posts

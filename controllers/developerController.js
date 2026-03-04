@@ -1,4 +1,4 @@
-const { Developer } = require("../models/Developer");
+const Developer = require("../models/Developer");
 
 module.exports = {
     // GET /api/developers
@@ -43,7 +43,7 @@ module.exports = {
         } catch (err) {
             return res  
                 .status(400)
-                .json({ message: "Failed to create developer"})
+                .json({ message: "Failed to create developer", error: err.message })
         }
     },
 
