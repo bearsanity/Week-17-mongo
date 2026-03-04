@@ -37,7 +37,17 @@ module.exports = {
     async createOnePost(req, res) {
         try {
             const post = await Post.create(req.body);
-            return res.status(201).json(post);
+            const developer = await Developer.findByIdAndUpdate(
+                req.body.developerId,
+                { $addToSet: { posts: post._id }},
+                { new: true }
+            );
+            if (!developer) {
+                return res
+                    .status(404)
+                    .json({message: "No developer found with that id"})
+            };
+            return res.status(201).json({ developer, post });
         } catch (err) {
             return res  
                 .status(400)
@@ -84,6 +94,50 @@ module.exports = {
             return res
                 .status(400)
                 .json({ message: "Failed to update post", error: err.message });
+        }
+    },
+
+    // POST	Add a reaction
+    async addReaction(req, res) {
+        try {
+            const post = await Post.findByIdAndUpdate(
+                req.params.postId,
+                { $addToSet: { reactions: req.body }},
+                { new: true }
+            );
+
+            if (!post) {
+                return res
+                    .status(404)
+                    .json({message: "No post found with that id"})
+            };
+            return res.json(post);
+        } catch (err) {
+            return res
+                .status(400)
+                .json({ message: "Failed to add reaction", error: err.message });
+        }
+    },
+
+    // DELETE Remove a reaction
+    async deleteReaction(req, res) {
+        try {
+            const post = await Post.findByIdAndUpdate(
+                req.params.postId,
+                { $pull: { reactions: { reactionId: req.params.reactionId } } },
+                { new: true }
+            );
+
+            if (!post) {
+                return res
+                    .status(404)
+                    .json({message: "No post found with that id"})
+            };
+            return res.json(post);
+        } catch (err) {
+            return res
+                .status(400)
+                .json({ message: "Failed to delete reaction", error: err.message });
         }
     },
 

@@ -88,6 +88,7 @@ module.exports = {
                 .json({ message: "Failed to update developer", error: err.message });
         }
     },
+
     // POST	Add a connection
     async addConnection(req, res) {
         try {
@@ -111,7 +112,6 @@ module.exports = {
     },
 
     // DELETE Remove a connection
-
     async deleteConnection(req, res) {
         try {
             const developer = await Developer.findByIdAndUpdate(
@@ -131,5 +131,5 @@ module.exports = {
                 .status(400)
                 .json({ message: "Failed to remove connection", error: err.message });
         }
-    }
+    },
 }
