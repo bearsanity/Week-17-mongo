@@ -60,7 +60,7 @@ module.exports = {
                 return res
                     .status(404)
                     .json({message: "No developer found with that id"})
-            }
+            };
 
             return res.json(developer);
         } catch (err) {
@@ -73,7 +73,7 @@ module.exports = {
     // DELETE /api/developers/:developerId	
     async deleteOneDeveloper(req, res) {
         try {
-            const developer = await Developer.findByIdAndDelete(req.params.developerId,);
+            const developer = await Developer.findByIdAndDelete(req.params.developerId);
 
             if (!developer) {
                 return res
@@ -88,4 +88,48 @@ module.exports = {
                 .json({ message: "Failed to update developer", error: err.message });
         }
     },
+    // POST	Add a connection
+    async addConnection(req, res) {
+        try {
+            const developer = await Developer.findByIdAndUpdate(
+                req.params.developerId,
+                { $addToSet: { connections: req.params.connectionId }},
+                { new: true }
+            );
+
+            if (!developer) {
+                return res
+                    .status(404)
+                    .json({message: "No developer found with that id"})
+            };
+            return res.json(developer);
+        } catch (err) {
+            return res
+                .status(400)
+                .json({ message: "Failed to add connection", error: err.message });
+        }
+    },
+
+    // DELETE Remove a connection
+
+    async deleteConnection(req, res) {
+        try {
+            const developer = await Developer.findByIdAndUpdate(
+                req.params.developerId,
+                { $pull: { connections: req.params.connectionId }},
+                { new: true }
+            );
+
+            if (!developer) {
+                return res
+                    .status(404)
+                    .json({message: "No developer found with that id"})
+            };
+            return res.json(developer);
+        } catch (err) {
+            return res
+                .status(400)
+                .json({ message: "Failed to remove connection", error: err.message });
+        }
+    }
 }
